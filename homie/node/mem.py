@@ -13,6 +13,9 @@ class Mem(HomieNode):
     def __str__(self):
         return 'Memory: Free = {}, Alloc = {}'.format(self.free, self.alloc)
 
+    def get_node_id(self):
+        return []
+
     def get_properties(self):
         return ()
 
