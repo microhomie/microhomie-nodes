@@ -28,14 +28,14 @@ ONOFF = {b'off': 0, b'on': 1, 0: b'off', 1: b'on'}
 
 class Relay(HomieNode):
 
-    def __init__(self, pin, interval=1):
+    def __init__(self, pin=(4,), interval=1):
         super().__init__(interval=interval)
         self.has_new_update = True
         self.subscribe = []
         self.relais = []
         self.onoff = ONOFF
 
-        # acivate pins
+        # activate pins
         for p in pin:
             p = Pin(p, Pin.OUT, value=0)
             self.relais.append(p)

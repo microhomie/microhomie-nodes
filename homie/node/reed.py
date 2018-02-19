@@ -10,7 +10,7 @@ from homie import Property
 
 class Reed(HomieNode):
 
-    def __init__(self, pin, interval=1):
+    def __init__(self, pin=4, interval=1):
         super().__init__(interval=interval)
         self.switch = Pin(pin, Pin.IN, Pin.PULL_UP)
         self.last_status = None
