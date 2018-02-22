@@ -1,0 +1,5 @@
+version = 0.2.0
+author = Rafael Römhild
+author_email = rafael@microhomie.com
+desc = Wifi node for the Homie v2 MicroPython framework.
+long_desc = README.rst

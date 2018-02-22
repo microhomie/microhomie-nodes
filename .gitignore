@@ -1,8 +1,5 @@
 *.py[cod]
 *~
-/main.py
-/settings.py
-/boot.py
 MANIFEST
 __pycache__
 *.egg-info

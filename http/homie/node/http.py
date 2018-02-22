@@ -1,11 +1,12 @@
 from homie.node import HomieNode
-from homie import Property, utils
+from homie import Property
 import urequests
+
 
 class HTTP(HomieNode):
     def __init__(self, url, headers={}, method='GET', interval=60):
         super().__init__(interval=interval)
-        
+
         self.url = url
         self.headers = headers
         self.method = method
@@ -23,8 +24,8 @@ class HTTP(HomieNode):
             )
 
     def update_data(self):
-        self.response = urequests.request(self.method, self.url, headers=self.headers)
-
+        self.response = urequests.request(self.method, self.url,
+                                          headers=self.headers)
 
     def get_data(self):
         return (
