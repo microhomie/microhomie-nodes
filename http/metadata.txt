@@ -3,4 +3,4 @@ author = Dennis Schwertel
 author_email = dennis@microhomie.com
 desc = HTTP node for the Homie v2 MicroPython framework.
 long_desc = README.rst
-depends = micropython-urllib.urequests
+depends = micropython.urequests

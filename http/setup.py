@@ -18,4 +18,4 @@ setup(name='microhomie-node-http',
       license='MIT',
       cmdclass={'sdist': sdist_upip.sdist},
       packages=['homie.node'],
-      install_requires=['micropython-urllib.urequests', 'microhomie'])
+      install_requires=['micropython.urequests', 'microhomie'])
