@@ -4,6 +4,7 @@ import sys
 sys.path.pop(0)
 
 import glob
+import configparser
 
 
 TEMPLATE = """\
@@ -53,11 +54,25 @@ def write_setup(fname, substs):
         f.write(TEMPLATE % substs)
 
 
+def gettype(name):
+    t = getattr(__builtins__, name)
+    if isinstance(t, type):
+        return t
+    else:
+        raise ValueError(name)
+
+
 def main():
+    nodes = {}
+
     for fname in glob.iglob("*/metadata.txt"):
         print(fname)
-        with open(fname) as f:
-            data = parse_metadata(f)
+        config = configparser.ConfigParser()
+        config.read(fname)
+
+        data = {}
+        for opt in config.options('package'):
+            data[opt] = config['package'].get(opt)
 
         dirname = fname.split("/")[0]
         module = dirname
@@ -75,7 +90,6 @@ def main():
             data["long_desc"] = MICROHOMIE_NODE_DESC
         if "license" not in data:
             data["license"] = "MIT"
-
 
         if "dist_name" not in data:
             data["dist_name"] = dirname
@@ -99,6 +113,40 @@ def main():
         data["_inst_req_"] = ",\n      install_requires=['" + "', '".join(deps) + "']"
 
         write_setup(dirname + "/setup.py", data)
+
+        # parse node params
+        nodes[module] = {}
+        for section in config.sections():
+            if 'param' in section:
+                param = section.split(':', 1)[1]
+                param_list = config[section].getboolean('list', False)
+                param_type = config[section].get('type')
+                ptype = gettype(param_type)
+
+                if param_list is True:
+                    param_default = config[section].get('default')
+                    param_default = [x.strip() for x in param_default.split(',')]
+                    if ptype is int:
+                        param_default = [int(x) for x in param_default]
+                    elif ptype is float:
+                        param_default = [float(x) for x in param_default]
+                elif ptype is int:
+                    param_default = config[section].getint('default')
+                elif ptype is float:
+                    param_default = config[section].getfloat('default')
+                elif ptype is bool:
+                    param_default = config[section].getboolean('default')
+                else:
+                    param_default = config[section].get('default')
+
+                nodes[module][param] = {
+                    'type': param_type,
+                    'default': param_default,
+                    'list': param_list,
+                }
+
+    with open('nodes.py', "w") as f:
+        f.write('nodes={}'.format(nodes))
 
 
 if __name__ == "__main__":

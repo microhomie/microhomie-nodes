@@ -1,5 +1,22 @@
+[package]
 version = 0.2.0
 author = Dennis Schwertel
 author_email = dennis@microhomie.com
 desc = SDS011 node for the Homie v2 MicroPython framework.
 long_desc = README.rst
+
+[param:rx]
+type = int
+default = 16
+
+[param:tx]
+type = int
+default = 17
+
+[param:allowed_time]
+type = int
+default = 20
+
+[param:interval]
+type = int
+default = 60

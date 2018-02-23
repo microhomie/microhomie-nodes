@@ -1,5 +1,14 @@
+[package]
 version = 0.2.0
 author = Rafael Römhild
 author_email = rafael@microhomie.com
 desc = PIR node for the Homie v2 MicroPython framework.
 long_desc = README.rst
+
+[param:pin]
+type = int
+default = 4
+
+[param:interval]
+type = int
+default = 60

@@ -1,6 +1,15 @@
+[package]
 version = 0.2.0
 author = Dennis Schwertel
 author_email = dennis@microhomie.com
 desc = HTTP node for the Homie v2 MicroPython framework.
 long_desc = README.rst
 depends = micropython.urequests
+
+[param:url]
+type = str
+default =
+
+[param:interval]
+type = int
+default = 60
