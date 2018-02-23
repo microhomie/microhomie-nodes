@@ -38,20 +38,14 @@ MICROHOMIE_DEVELS = 'Microhomie Developers'
 MICROHOMIE_DEVELS_EMAIL = 'contact@microhomie.com'
 
 
-def parse_metadata(f):
-    data = {}
-    for l in f:
-        l = l.strip()
-        if l[0] == "#":
-            continue
-        k, v = l.split("=", 1)
-        data[k.strip()] = v.strip()
-    return data
-
-
 def write_setup(fname, substs):
     with open(fname, "w") as f:
         f.write(TEMPLATE % substs)
+
+
+def write_nodespy(nodes):
+    with open('nodes.py', "w") as f:
+        f.write('nodes={}'.format(nodes))
 
 
 def gettype(name):
@@ -145,8 +139,7 @@ def main():
                     'list': param_list,
                 }
 
-    with open('nodes.py', "w") as f:
-        f.write('nodes={}'.format(nodes))
+    write_nodespy(nodes)
 
 
 if __name__ == "__main__":
