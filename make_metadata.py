@@ -45,8 +45,8 @@ def write_setup(fname, substs):
 
 
 def write_nodespy(nodes):
-    with open('nodes.py', "w") as f:
-        f.write('nodes={}'.format(nodes))
+    with open('nodes.txt', "w") as f:
+        f.write('%s' % nodes)
 
 
 def gettype(name):
