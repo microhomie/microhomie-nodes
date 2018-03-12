@@ -10,5 +10,5 @@ Most of these nodes can be used out of the box to publish data.
 
 Install nodes with upip:
 
-    >>> import upip
-    >>> upip.install('microhomie-node-dht22')
+>>> import upip
+>>> upip.install('microhomie-node-dht22')
