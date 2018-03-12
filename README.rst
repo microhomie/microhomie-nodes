@@ -1,5 +1,6 @@
-Nodes for the Homie v2 MicroPython Framework
-============================================
+==================================
+Nodes for the Microhomie Framework
+==================================
 
 For full instruction see the `Microhomie <https://github.com/microhomie/microhomie>`_ repository.
 
@@ -9,5 +10,5 @@ Most of these nodes can be used out of the box to publish data.
 
 Install nodes with upip:
 
->>> import upip
->>> upip.install('microhomie-node-dht22')
+    >>> import upip
+    >>> upip.install('microhomie-node-dht22')
