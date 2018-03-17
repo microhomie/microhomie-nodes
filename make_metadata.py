@@ -44,9 +44,9 @@ def write_setup(fname, substs):
         f.write(TEMPLATE % substs)
 
 
-def write_nodespy(nodes):
-    with open('nodes.txt', "w") as f:
-        f.write('%s' % nodes)
+def write_nodes_py(nodes):
+    with open('nodes.py', "w") as f:
+        f.write('nodes=%s' % nodes)
 
 
 def gettype(name):
@@ -140,7 +140,7 @@ def main():
                     'list': param_list,
                 }
 
-    write_nodespy(nodes)
+    write_nodes_py(nodes)
 
 
 if __name__ == "__main__":
