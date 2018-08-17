@@ -26,14 +26,12 @@ class Reed(HomieNode):
         return True if self.switch.value() else False
 
     def get_properties(self):
-        return (
-            Property(b'door/$type', b'door', True),
-            Property(b'door/$properties', b'open', True),
-            Property(b'door/open/$settable', b'false', True),
-            Property(b'door/open/$name', b'door', True),
-            Property(b'door/open/$datatype', b'boolean', True),
-            Property(b'door/open/$format', b'true,false', True)
-        )
+        yield Property(b'door/$type', b'door', True)
+        yield Property(b'door/$properties', b'open', True)
+        yield Property(b'door/open/$settable', b'false', True)
+        yield Property(b'door/open/$name', b'door', True)
+        yield Property(b'door/open/$datatype', b'boolean', True)
+        yield Property(b'door/open/$format', b'true,false', True)
 
     def has_update(self):
         status = self.switch.value()
@@ -43,4 +41,4 @@ class Reed(HomieNode):
         return False
 
     def get_data(self):
-        return (Property(b'door/open', self.is_open(), True),)
+        yield Property(b'door/open', self.is_open(), True)

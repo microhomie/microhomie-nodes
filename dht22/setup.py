@@ -8,7 +8,7 @@ sys.path.append("..")
 import sdist_upip
 
 setup(name='microhomie-node-dht22',
-      version='0.2.0',
+      version='0.3.0',
       description='DHT22 node for the Homie v2 MicroPython framework.',
       long_description=open('README.rst').read(),
       url='https://github.com/microhomie/microhomie-nodes',

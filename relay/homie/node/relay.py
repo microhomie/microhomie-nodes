@@ -31,7 +31,6 @@ class Relay(HomieNode):
     def __init__(self, pin=(4,), interval=1):
         super().__init__(interval=interval)
         self.has_new_update = True
-        self.subscribe = []
         self.relais = []
         self.onoff = ONOFF
 
@@ -40,10 +39,14 @@ class Relay(HomieNode):
             p = Pin(p, Pin.OUT, value=0)
             self.relais.append(p)
 
-        self.sub()
-
     def __str__(self):
         pass
+
+    @property
+    def subscribe(self):
+        for relay in range(len(self.relais)):
+            relay += 1
+            yield 'relay/relay_{}/set'.format(relay).encode()
 
     def get_node_id(self):
         return [b'relay[1-{}]'.format(len(self.relais))]
@@ -51,28 +54,16 @@ class Relay(HomieNode):
     def get_properties(self):
         relais = len(self.relais)
         properties_str = 'relay[1-{}]'.format(relais).encode()
-        properties = [
-            Property(b'relay/$type', b'relay', True),
-            Property(b'relay/$properties', properties_str, True),
-        ]
+        yield Property(b'relay/$type', b'relay', True)
+        yield Property(b'relay/$properties', properties_str, True)
 
         for relay in range(relais):
             name = 'Relay {}'.format(relay + 1).encode()
             prop = 'relay/relay_{}'.format(relay + 1).encode()
-            attributes = [
-                Property(prop + b'/$settable', b'true', True),
-                Property(prop + b'/$name', name, True),
-                Property(prop + b'/$datatype', b'string', True),
-                Property(prop + b'/$format', b'on,off', True)
-            ]
-            properties.extend(attributes)
-
-        return properties
-
-    def sub(self):
-        for relay in range(len(self.relais)):
-            relay += 1
-            self.subscribe.append('relay/relay_{}/set'.format(relay).encode())
+            yield Property(prop + b'/$settable', b'true', True)
+            yield Property(prop + b'/$name', name, True)
+            yield Property(prop + b'/$datatype', b'string', True)
+            yield Property(prop + b'/$format', b'on,off', True)
 
     def callback(self, topic, message):
         relay = self.get_property_id_from_topic(topic) - 1
@@ -86,10 +77,6 @@ class Relay(HomieNode):
         return False
 
     def get_data(self):
-        data = []
         for relay in range(len(self.relais)):
             topic = 'relay/relay_{}'.format(relay + 1).encode()
-            data.append(
-                Property(topic, self.onoff[self.relais[relay].value()], True))
-
-        return data
+            yield Property(topic, self.onoff[self.relais[relay].value()], True)

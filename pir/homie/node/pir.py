@@ -18,13 +18,11 @@ class PIR(HomieNode):
         return [b'pir']
 
     def get_properties(self):
-        return (
-            Property(b'pir/$type', b'pir', True),
-            Property(b'pir/$properties', b'motion', True),
-            Property(b'pir/motion/$settable', b'false', True),
-            Property(b'pir/motion/$datatype', b'boolean', True),
-            Property(b'pir/motion/$format', b'true,false', True)
-        )
+        yield Property(b'pir/$type', b'pir', True)
+        yield Property(b'pir/$properties', b'motion', True)
+        yield Property(b'pir/motion/$settable', b'false', True)
+        yield Property(b'pir/motion/$datatype', b'boolean', True)
+        yield Property(b'pir/motion/$format', b'true,false', True)
 
     def has_update(self):
         new_pir_state = self.pir.value()
@@ -35,4 +33,4 @@ class PIR(HomieNode):
 
     def get_data(self):
         payload = 'true' if self.last_pir_state == 1 else 'false'
-        return (Property(b'pir/motion', payload, True),)
+        yield Property(b'pir/motion', payload, True)

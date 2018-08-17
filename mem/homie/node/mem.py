@@ -24,7 +24,5 @@ class Mem(HomieNode):
         self.alloc = gc.mem_alloc()
 
     def get_data(self):
-        return (
-            Property(b'$stats/mem/free', self.free, True),
-            Property(b'$stats/mem/alloc', self.alloc, True)
-        )
+        yield Property(b'$stats/mem/free', self.free, True)
+        yield Property(b'$stats/mem/alloc', self.alloc, True)

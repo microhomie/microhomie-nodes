@@ -22,22 +22,21 @@ class DHT22(HomieNode):
         return [b'temperature', b'humidity']
 
     def get_properties(self):
-        return (
-            # temperature
-            Property(b'temperature/$type', b'temperature', True),
-            Property(b'temperature/$properties', b'degrees', True),
-            Property(b'temperature/degrees/$settable', b'false', True),
-            Property(b'temperature/degrees/$unit', b'°C', True),
-            Property(b'temperature/degrees/$datatype', b'float', True),
-            Property(b'temperature/degrees/$format', b'20.0:60', True),
-            # humidity
-            Property(b'humidity/$type', b'humidity', True),
-            Property(b'humidity/$properties', b'percentage', True),
-            Property(b'humidity/percentage/$settable', b'false', True),
-            Property(b'humidity/percentage/$unit', b'%', True),
-            Property(b'humidity/percentage/$datatype', b'float', True),
-            Property(b'humidity/percentage/$format', b'0:100', True),
-        )
+        # temperature
+        yield Property(b'temperature/$type', b'temperature', True)
+        yield Property(b'temperature/$properties', b'degrees', True)
+        yield Property(b'temperature/degrees/$settable', b'false', True)
+        yield Property(b'temperature/degrees/$unit', b'°C', True)
+        yield Property(b'temperature/degrees/$datatype', b'float', True)
+        yield Property(b'temperature/degrees/$format', b'20.0:60', True)
+
+        # humidity
+        yield Property(b'humidity/$type', b'humidity', True)
+        yield Property(b'humidity/$properties', b'percentage', True)
+        yield Property(b'humidity/percentage/$settable', b'false', True)
+        yield Property(b'humidity/percentage/$unit', b'%', True)
+        yield Property(b'humidity/percentage/$datatype', b'float', True)
+        yield Property(b'humidity/percentage/$format', b'0:100', True)
 
     def update_data(self):
         self.dht22.measure()
@@ -45,7 +44,5 @@ class DHT22(HomieNode):
         self.humidity = self.dht22.humidity()
 
     def get_data(self):
-        return (
-            Property(b'temperature/degrees', self.temperature, True),
-            Property(b'humidity/percentage', self.humidity, True)
-        )
+        yield Property(b'temperature/degrees', self.temperature, True)
+        yield Property(b'humidity/percentage', self.humidity, True)

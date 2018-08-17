@@ -24,6 +24,4 @@ class Wifi(HomieNode):
                 self.rssi = ssid[3]
 
     def get_data(self):
-        return (
-            Property(b'$stats/signal', self.rssi, True),
-        )
+        yield Property(b'$stats/signal', self.rssi, True)

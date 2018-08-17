@@ -52,35 +52,31 @@ class SDS011(HomieNode):
         return [b'pm25', b'pm10', b'packet_status']
 
     def get_properties(self):
-        return (
-            Property(b'pm25/$type', b'pm25', True),
-            Property(b'pm25/$properties', b'concentration', True),
-            Property(b'pm25/concentration/$settable', b'false', True),
-            Property(b'pm25/concentration/$unit', b'mg/m3', True),
-            Property(b'pm25/concentration/$datatype', b'float', True),
-            Property(b'pm25/concentration/$format', b'20.0:60', True),
+        yield Property(b'pm25/$type', b'pm25', True)
+        yield Property(b'pm25/$properties', b'concentration', True)
+        yield Property(b'pm25/concentration/$settable', b'false', True)
+        yield Property(b'pm25/concentration/$unit', b'mg/m3', True)
+        yield Property(b'pm25/concentration/$datatype', b'float', True)
+        yield Property(b'pm25/concentration/$format', b'20.0:60', True)
 
-            Property(b'pm10/$type', b'pm10', True),
-            Property(b'pm10/$properties', b'concentration', True),
-            Property(b'pm10/concentration/$settable', b'false', True),
-            Property(b'pm10/concentration/$unit', b'mg/m3', True),
-            Property(b'pm10/concentration/$datatype', b'float', True),
-            Property(b'pm10/concentration/$format', b'20.0:60', True),
+        yield Property(b'pm10/$type', b'pm10', True)
+        yield Property(b'pm10/$properties', b'concentration', True)
+        yield Property(b'pm10/concentration/$settable', b'false', True)
+        yield Property(b'pm10/concentration/$unit', b'mg/m3', True)
+        yield Property(b'pm10/concentration/$datatype', b'float', True)
+        yield Property(b'pm10/concentration/$format', b'20.0:60', True)
 
-            Property(b'packet_status/$type', b'pm10', True),
-            Property(b'packet_status/$properties', b'valid', True),
-            Property(b'packet_status/valid/$settable', b'false', True),
-            Property(b'packet_status/valid/$unit', b'Boolean', True),
-            Property(b'packet_status/valid/$datatype', b'boolean', True),
-            Property(b'packet_status/valid/$format', b'20.0:60', True)
-        )
+        yield Property(b'packet_status/$type', b'pm10', True)
+        yield Property(b'packet_status/$properties', b'valid', True)
+        yield Property(b'packet_status/valid/$settable', b'false', True)
+        yield Property(b'packet_status/valid/$unit', b'Boolean', True)
+        yield Property(b'packet_status/valid/$datatype', b'boolean', True)
+        yield Property(b'packet_status/valid/$format', b'20.0:60', True)
 
     def get_data(self):
-        return (
-            Property(b'pm25/concentration', self.pm25, True),
-            Property(b'pm10/concentration', self.pm10, True),
-            Property(b'packet_status/valid', self.packet_status, True)
-        )
+        yield Property(b'pm25/concentration', self.pm25, True)
+        yield Property(b'pm10/concentration', self.pm10, True)
+        yield Property(b'packet_status/valid', self.packet_status, True)
 
     def make_command(self, cmd, mode, param):
         header = b'\xaa\xb4'
