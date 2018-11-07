@@ -3,13 +3,13 @@ import dht
 from machine import Pin
 
 from homie.node import HomieNode
-from homie import Property
 
 
 class DHT22(HomieNode):
 
-    def __init__(self, pin=4, interval=60):
-        super(DHT22, self).__init__(interval=interval)
+    def __init__(self, name="Temp and Humi", pin=4, interval=60):
+        super(DHT22, self).__init__(name=name, interval=interval)
+        self.node_id = b"dht22"
         self.dht22 = dht.DHT22(Pin(pin))
         self.temperature = 0
         self.humidity = 0
@@ -18,25 +18,23 @@ class DHT22(HomieNode):
         return 'DHT22: Temperature = {}, Humidity = {}'.format(
             self.temperature, self.humidity)
 
-    def get_node_id(self):
-        return [b'temperature', b'humidity']
-
     def get_properties(self):
+        yield (b"dht22/$name", self.name)
+        yield (b'dht22/$properties', b'temperature,humidity')
+
         # temperature
-        yield Property(b'temperature/$type', b'temperature', True)
-        yield Property(b'temperature/$properties', b'degrees', True)
-        yield Property(b'temperature/degrees/$settable', b'false', True)
-        yield Property(b'temperature/degrees/$unit', b'°C', True)
-        yield Property(b'temperature/degrees/$datatype', b'float', True)
-        yield Property(b'temperature/degrees/$format', b'20.0:60', True)
+        yield (b'dht22/$type', b'temperature')
+        yield (b'dht22/temperature/$name', b'Temperature')
+        yield (b'dht22/temperature/$unit', b'°C')
+        yield (b'dht22/temperature/$datatype', b'float')
+        yield (b'dht22/temperature/$format', b'20.0:60')
 
         # humidity
-        yield Property(b'humidity/$type', b'humidity', True)
-        yield Property(b'humidity/$properties', b'percentage', True)
-        yield Property(b'humidity/percentage/$settable', b'false', True)
-        yield Property(b'humidity/percentage/$unit', b'%', True)
-        yield Property(b'humidity/percentage/$datatype', b'float', True)
-        yield Property(b'humidity/percentage/$format', b'0:100', True)
+        yield (b'dht22/$type', b'humidity')
+        yield (b'dht22/humidity/$name', b'Humidity')
+        yield (b'dht22/humidity/$unit', b'%')
+        yield (b'dht22/humidity/$datatype', b'float')
+        yield (b'dht22/humidity/$format', b'0:100')
 
     def update_data(self):
         self.dht22.measure()
@@ -44,5 +42,5 @@ class DHT22(HomieNode):
         self.humidity = self.dht22.humidity()
 
     def get_data(self):
-        yield Property(b'temperature/degrees', self.temperature, True)
-        yield Property(b'humidity/percentage', self.humidity, True)
+        yield (b'dht22/temperature', self.temperature)
+        yield (b'dht22/humidity', self.humidity)

@@ -1,14 +1,15 @@
 from machine import Pin
 
 from homie.node import HomieNode
-from homie import Property
 
 
 class PIR(HomieNode):
 
-    def __init__(self, pin=4, interval=1):
-        super().__init__(interval=interval)
+    def __init__(self, name="Motion sensor", pin=4, interval=1):
+        super().__init__(interval=interval, name=name)
+        self.node_id = b"pir"
         self.pir = Pin(pin, Pin.IN, pull=Pin.PULL_UP)
+        self.name = name
         self.last_pir_state = 0
 
     def __str__(self):
@@ -18,11 +19,13 @@ class PIR(HomieNode):
         return [b'pir']
 
     def get_properties(self):
-        yield Property(b'pir/$type', b'pir', True)
-        yield Property(b'pir/$properties', b'motion', True)
-        yield Property(b'pir/motion/$settable', b'false', True)
-        yield Property(b'pir/motion/$datatype', b'boolean', True)
-        yield Property(b'pir/motion/$format', b'true,false', True)
+        yield (b"pir/$name", self.name)
+        yield (b'pir/$type', b'pir')
+        yield (b'pir/$properties', b'motion')
+        yield (b"pir/motion/$name", b"PIR sensor")
+        yield (b'pir/motion/$retained', b'false')
+        yield (b'pir/motion/$datatype', b'boolean')
+        yield (b'pir/motion/$format', b'true,false')
 
     def has_update(self):
         new_pir_state = self.pir.value()
@@ -33,4 +36,4 @@ class PIR(HomieNode):
 
     def get_data(self):
         payload = 'true' if self.last_pir_state == 1 else 'false'
-        yield Property(b'pir/motion', payload, True)
+        yield (b'pir/motion', payload, False)
