@@ -7,10 +7,10 @@ from homie.node import HomieNode
 
 class DHT22(HomieNode):
 
-    def __init__(self, name="Temp and Humi", pin=4, interval=60):
+    def __init__(self, name="Temp & Humi", self, pin=4, interval=60, pull=-1):
         super(DHT22, self).__init__(name=name, interval=interval)
         self.node_id = b"dht22"
-        self.dht22 = dht.DHT22(Pin(pin))
+        self.dht22 = dht.DHT22(Pin(pin, Pin.IN, pull))
         self.temperature = 0
         self.humidity = 0
 
