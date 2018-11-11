@@ -7,9 +7,9 @@ from setuptools import setup
 sys.path.append("..")
 import sdist_upip
 
-setup(name='microhomie-node-relay',
+setup(name='microhomie-node-relais',
       version='0.4.0',
-      description='Relay node for the Homie MicroPython framework.',
+      description='Relais node for the Homie MicroPython framework.',
       long_description=open('README.rst').read(),
       url='https://github.com/microhomie/microhomie-nodes',
       author='Rafael Römhild',
