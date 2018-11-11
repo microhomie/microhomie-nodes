@@ -10,13 +10,10 @@ class PIR(HomieNode):
         self.node_id = b"pir"
         self.pir = Pin(pin, Pin.IN, pull=Pin.PULL_UP)
         self.name = name
-        self.last_pir_state = 0
+        self.latest = 0
 
     def __str__(self):
-        return 'Last PIR State = {}'.format(self.last_pir_state)
-
-    def get_node_id(self):
-        return [b'pir']
+        return 'Last PIR State = {}'.format(self.latest)
 
     def get_properties(self):
         yield (b"pir/$name", self.name)
@@ -28,12 +25,12 @@ class PIR(HomieNode):
         yield (b'pir/motion/$format', b'true,false')
 
     def has_update(self):
-        new_pir_state = self.pir.value()
-        if new_pir_state != self.last_pir_state:
-            self.last_pir_state = new_pir_state
+        new = self.pir()
+        if new != self.latest:
+            self.latest = new
             return True
         return False
 
     def get_data(self):
-        payload = 'true' if self.last_pir_state == 1 else 'false'
+        payload = b'true' if self.latest == 1 else b'false'
         yield (b'pir/motion', payload, False)
