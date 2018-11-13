@@ -9,8 +9,9 @@ from homie.node import HomieNode
 
 class Switch(HomieNode):
 
-    def __init__(self, type, name="Switch", pin=4, interval=1):
+    def __init__(self, type="switch", name="Switch", pin=4, interval=1):
         super().__init__(name=name, interval=interval)
+        self.type = type
         self.node_id = b"switch"
         self.switch = Pin(pin, Pin.IN, Pin.PULL_UP)
         self.last_status = None

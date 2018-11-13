@@ -17,6 +17,9 @@ class Wifi(HomieNode):
     def __str__(self):
         return 'WIFI: rssi = {}'.format(self.rssi)
 
+    def get_properties(self):
+        yield ()
+
     def update_data(self):
         ssids = utils.wlan.scan()
         for ssid in ssids:

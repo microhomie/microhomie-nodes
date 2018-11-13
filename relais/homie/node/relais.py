@@ -2,11 +2,11 @@
 import settings
 
 from homie.node.relay import Relais
-from homie import HomieDevice
+from homie.device import HomieDevice
 
 def main():
     homie = HomieDevice(settings)
-    homie.add_node(Relay(pin=[2, 4]))
+    homie.add_node(Relay(pin=(2, 4))
     homie.start()
 
 
@@ -18,21 +18,20 @@ from machine import Pin
 from homie.node import HomieNode
 
 
-ONOFF = {b'off': 0, b'on': 1, 0: b'off', 1: b'on'}
+ONOFF = {b"false": 0, b"true": 1, 0: b"false", 1: b"true"}
 
 
 class Relais(HomieNode):
 
-    def __init__(self, name="Relais", pin=(4,), interval=1):
+    def __init__(self, name="Relais", pin=(4,), interval=1, value=0):
         super().__init__(name=name, interval=interval)
         self.node_id = b"relais[]"
         self.has_new_update = True
         self.relais = []
-        self.onoff = ONOFF
 
         # activate pins
         for p in pin:
-            p = Pin(p, Pin.OUT, value=0)
+            p = Pin(p, Pin.OUT, value=value)
             self.relais.append(p)
 
     def __str__(self):
@@ -40,8 +39,8 @@ class Relais(HomieNode):
 
     @property
     def subscribe(self):
-        for relais in range(len(self.relais)):
-            yield b'relais/relais_{}/power/set'.format(relais + 1)
+        for r in range(len(self.relais)):
+            yield 'relais/relais_{}/power/set'.format(r + 1).encode()
 
     def get_properties(self):
         yield (b'relais/$type', b'relais')
@@ -50,14 +49,14 @@ class Relais(HomieNode):
         yield (b'relais/power/$settable', b"true")
         yield (b"relais/power/$datatype", b"boolean")
 
-        for relais in len(self.relais):
-            name = 'Relais {}'.format(relais + 1).encode()
-            prop = b'relais/relais_{}'.format(relais + 1)
-            yield (b'/'.join((prop, '/$name')), name)
+        for r in range(len(self.relais)):
+            name = 'Relais #{}'.format(r + 1)
+            t = 'relais/relais_{}/$name'.format(r + 1).encode()
+            yield (t, name)
 
     def callback(self, topic, message):
-        relais = self.get_property_id_from_topic(topic) - 1
-        self.relais[relais].value(self.onoff[message])
+        r = self.get_property_id_from_set_topic(topic) - 1
+        self.relais[r](ONOFF[message])
         self.has_new_update = True
 
     def has_update(self):
@@ -67,6 +66,6 @@ class Relais(HomieNode):
         return False
 
     def get_data(self):
-        for relais in range(len(self.relais)):
-            topic = b'relais/relais_{}/power'.format(relais + 1)
-            yield (topic, self.onoff[self.relais[relais]()])
+        for r in range(len(self.relais)):
+            t = 'relais/relais_{}/power'.format(r + 1).encode()
+            yield (t, ONOFF[self.relais[r]()])

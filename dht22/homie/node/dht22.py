@@ -7,7 +7,7 @@ from homie.node import HomieNode
 
 class DHT22(HomieNode):
 
-    def __init__(self, name="Temp & Humi", self, pin=4, interval=60, pull=-1):
+    def __init__(self, name="Temp & Humi", pin=4, interval=60, pull=-1):
         super(DHT22, self).__init__(name=name, interval=interval)
         self.node_id = b"dht22"
         self.dht22 = dht.DHT22(Pin(pin, Pin.IN, pull))
@@ -20,17 +20,16 @@ class DHT22(HomieNode):
 
     def get_properties(self):
         yield (b"dht22/$name", self.name)
+        yield (b'dht22/$type', b'DHT22')
         yield (b'dht22/$properties', b'temperature,humidity')
 
         # temperature
-        yield (b'dht22/$type', b'temperature')
         yield (b'dht22/temperature/$name', b'Temperature')
         yield (b'dht22/temperature/$unit', b'°C')
         yield (b'dht22/temperature/$datatype', b'float')
-        yield (b'dht22/temperature/$format', b'20.0:60')
+        yield (b'dht22/temperature/$format', b'-40:80')
 
         # humidity
-        yield (b'dht22/$type', b'humidity')
         yield (b'dht22/humidity/$name', b'Humidity')
         yield (b'dht22/humidity/$unit', b'%')
         yield (b'dht22/humidity/$datatype', b'float')
