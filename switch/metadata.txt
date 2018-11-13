@@ -1,5 +1,5 @@
 [package]
-version = 0.1.0
+version = 0.3.0
 author = Rafael Römhild
 author_email = rafael@microhomie.com
 desc = Switch node for the Homie MicroPython framework.

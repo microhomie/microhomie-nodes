@@ -8,7 +8,7 @@ sys.path.append("..")
 import sdist_upip
 
 setup(name='microhomie-node-switch',
-      version='0.1.0',
+      version='0.3.0',
       description='Switch node for the Homie MicroPython framework.',
       long_description=open('README.rst').read(),
       url='https://github.com/microhomie/microhomie-nodes',
