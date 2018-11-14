@@ -8,7 +8,7 @@ sys.path.append("..")
 import sdist_upip
 
 setup(name='microhomie-node-http',
-      version='0.3.0',
+      version='0.3.1',
       description='HTTP node for the Homie MicroPython framework.',
       long_description=open('README.rst').read(),
       url='https://github.com/microhomie/microhomie-nodes',
@@ -19,4 +19,4 @@ setup(name='microhomie-node-http',
       license='MIT',
       cmdclass={'sdist': sdist_upip.sdist},
       packages=['homie.node'],
-      install_requires=['micropython.urequests', 'microhomie'])
+      install_requires=['micropython-urequests', 'microhomie'])
