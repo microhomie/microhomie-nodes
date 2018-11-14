@@ -8,8 +8,8 @@ sys.path.append("..")
 import sdist_upip
 
 setup(name='microhomie-node-wifi',
-      version='0.2.0',
-      description='Wifi node for the Homie v2 MicroPython framework.',
+      version='0.3.0',
+      description='Wifi node for the Homie MicroPython framework.',
       long_description=open('README.rst').read(),
       url='https://github.com/microhomie/microhomie-nodes',
       author='Rafael Römhild',

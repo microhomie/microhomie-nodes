@@ -7,9 +7,9 @@ from setuptools import setup
 sys.path.append("..")
 import sdist_upip
 
-setup(name='microhomie-node-dht22',
+setup(name='microhomie-node-switch',
       version='0.3.0',
-      description='DHT22 node for the Homie MicroPython framework.',
+      description='Switch node for the Homie MicroPython framework.',
       long_description=open('README.rst').read(),
       url='https://github.com/microhomie/microhomie-nodes',
       author='Rafael Römhild',

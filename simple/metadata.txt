@@ -1,8 +1,8 @@
 [package]
 version = 0.3.0
-author = Rafael Römhild
-author_email = rafael@microhomie.com
-desc = DHT22 node for the Homie MicroPython framework.
+author = Dennis Schwertel
+author_email = dennis@microhomie.com
+desc = Simple node for the Homie MicroPython framework.
 long_desc = README.rst
 
 [param:pin]

@@ -1,8 +1,8 @@
 [package]
-version = 0.2.0
+version = 0.3.0
 author = Rafael Römhild
 author_email = rafael@microhomie.com
-desc = Reed node for the Homie v2 MicroPython framework.
+desc = Switch node for the Homie MicroPython framework.
 long_desc = README.rst
 
 [param:pin]

@@ -7,13 +7,13 @@ from setuptools import setup
 sys.path.append("..")
 import sdist_upip
 
-setup(name='microhomie-node-mem',
-      version='0.2.0',
-      description='Memory node for the Homie v2 MicroPython framework.',
+setup(name='microhomie-node-simple',
+      version='0.3.0',
+      description='Simple node for the Homie MicroPython framework.',
       long_description=open('README.rst').read(),
       url='https://github.com/microhomie/microhomie-nodes',
-      author='Rafael Römhild',
-      author_email='rafael@microhomie.com',
+      author='Dennis Schwertel',
+      author_email='dennis@microhomie.com',
       maintainer='Microhomie Developers',
       maintainer_email='contact@microhomie.com',
       license='MIT',

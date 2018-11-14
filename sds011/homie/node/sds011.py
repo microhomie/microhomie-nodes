@@ -26,7 +26,6 @@ import ustruct as struct
 import sys
 import utime as time
 from homie.node import HomieNode
-from homie import Property
 
 
 CMDS = {'SET': b'\x01',
@@ -37,8 +36,9 @@ CMDS = {'SET': b'\x01',
 
 class SDS011(HomieNode):
 
-    def __init__(self, interval=60, allowed_time=20, rx=16, tx=17):
-        super(SDS011, self).__init__(interval=interval)
+    def __init__(self, name="Air sensor", interval=60, allowed_time=20, rx=16, tx=17):
+        super(SDS011, self).__init__(name=name, interval=interval)
+        self.node_id = b"sds011"
         self.pm25 = 0
         self.pm10 = 0
         self.packet_status = True
@@ -52,35 +52,25 @@ class SDS011(HomieNode):
         return [b'pm25', b'pm10', b'packet_status']
 
     def get_properties(self):
-        return (
-            Property(b'pm25/$type', b'pm25', True),
-            Property(b'pm25/$properties', b'concentration', True),
-            Property(b'pm25/concentration/$settable', b'false', True),
-            Property(b'pm25/concentration/$unit', b'mg/m3', True),
-            Property(b'pm25/concentration/$datatype', b'float', True),
-            Property(b'pm25/concentration/$format', b'20.0:60', True),
+        yield (b'sds011/$name', b'Air sensor')
+        yield (b'sds011/$type', b'SDS011')
+        yield (b'sds011/$properties', b'pm25,pm10,packet_status')
 
-            Property(b'pm10/$type', b'pm10', True),
-            Property(b'pm10/$properties', b'concentration', True),
-            Property(b'pm10/concentration/$settable', b'false', True),
-            Property(b'pm10/concentration/$unit', b'mg/m3', True),
-            Property(b'pm10/concentration/$datatype', b'float', True),
-            Property(b'pm10/concentration/$format', b'20.0:60', True),
+        yield (b'sds011/pm25/$unit', b'mg/m3')
+        yield (b'sds011/pm25/$datatype', b'float')
+        yield (b'sds011/pm25/$format', b'20.0:60')
 
-            Property(b'packet_status/$type', b'pm10', True),
-            Property(b'packet_status/$properties', b'valid', True),
-            Property(b'packet_status/valid/$settable', b'false', True),
-            Property(b'packet_status/valid/$unit', b'Boolean', True),
-            Property(b'packet_status/valid/$datatype', b'boolean', True),
-            Property(b'packet_status/valid/$format', b'20.0:60', True)
-        )
+        yield (b'sds011/pm10/$unit', b'mg/m3')
+        yield (b'sds011/pm10/$datatype', b'float')
+        yield (b'sds011/pm10/$format', b'20.0:60')
+
+        yield (b'sds011/packet_status/$datatype', b'string')
+        yield (b'sds011/packet_status/$format', b'valid,invalid')
 
     def get_data(self):
-        return (
-            Property(b'pm25/concentration', self.pm25, True),
-            Property(b'pm10/concentration', self.pm10, True),
-            Property(b'packet_status/valid', self.packet_status, True)
-        )
+        yield (b'sds011/pm25', self.pm25)
+        yield (b'sds011/pm10', self.pm10)
+        yield (b'sds011/packet_status', self.packet_status)
 
     def make_command(self, cmd, mode, param):
         header = b'\xaa\xb4'
@@ -118,7 +108,7 @@ class SDS011(HomieNode):
 
                         self.pm25 = data[0]/10.0
                         self.pm10 = data[1]/10.0
-                        self.packet_status = True if (checksum_OK and tail_OK) else False
+                        self.packet_status = b"valid" if (checksum_OK and tail_OK) else b"invalid"
 
                     elif command == b'\xc5':
                         packet = self.uart.read(8)
