@@ -1,0 +1,14 @@
+[package]
+version = 0.3.0
+author = Dennis Schwertel
+author_email = dennis@microhomie.com
+desc = Simple node for the Homie MicroPython framework.
+long_desc = README.rst
+
+[param:pin]
+type = int
+default = 4
+
+[param:interval]
+type = int
+default = 60
