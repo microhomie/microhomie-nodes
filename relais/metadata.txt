@@ -2,7 +2,7 @@
 version = 0.3.0
 author = Rafael Römhild
 author_email = rafael@microhomie.com
-desc = Relay node for the Homie MicroPython framework.
+desc = Relais node for the Homie MicroPython framework.
 long_desc = README.rst
 
 [param:pin]
