@@ -1,0 +1,22 @@
+[package]
+version = 0.1.1
+author = Fabian Große
+author_email = fabian-grosse@t-online.de
+desc = BME280 node for the Homie MicroPython framework.
+long_desc = README.rst
+
+[param:sda]
+type = int
+default = 4
+
+[param:sdc]
+type = int
+default = 5
+
+[param:frequency]
+type = int
+default = 100000
+
+[param:interval]
+type = int
+default = 60
